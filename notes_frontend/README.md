@@ -1,82 +1,76 @@
-# Lightweight React Template for KAVIA
+# Notes Frontend (React) — Ocean Professional
 
-This project provides a minimal React template with a clean, modern UI and minimal dependencies.
+A simple, modern notes app with a sidebar list and main editor panel. Uses an in-memory store by default and can connect to a backend API when `REACT_APP_API_BASE` is configured.
 
 ## Features
 
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
+- Sidebar for note list with search/filter
+- Main panel with title/content editor
+- Create, edit, delete notes
+- Basic validation + optimistic updates
+- Responsive with smooth transitions
+- Ocean Professional theme (primary `#2563EB`, secondary `#F59E0B`, error `#EF4444`, background `#f9fafb`, surface `#ffffff`, text `#111827`)
 
 ## Getting Started
 
-In the project directory, you can run:
+Install dependencies:
 
-### `npm start`
-
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-### `npm test`
-
-Launches the test runner in interactive watch mode.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-## Customization
-
-### Colors
-
-The main brand colors are defined as CSS variables in `src/App.css`:
-
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-}
+```bash
+npm install
 ```
 
-### Components
+Run development server:
 
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
+```bash
+npm start
+```
 
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
+Run tests:
 
-## Learn More
+```bash
+npm test
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Build production:
 
-### Code Splitting
+```bash
+npm run build
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Environment Configuration
 
-### Analyzing the Bundle Size
+Copy `.env.example` to `.env` and set variables as needed.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- `REACT_APP_API_BASE` (optional): Base URL of the backend (e.g. `https://api.example.com`).  
+  If omitted, the app uses an in-memory store and still provides full UI interactions.
 
-### Making a Progressive Web App
+Other optional envs are included in `.env.example` for completeness but are not required by the runtime.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Backend Integration
 
-### Advanced Configuration
+If `REACT_APP_API_BASE` is set, the app will attempt to call the following endpoints:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- `GET /notes` → list notes
+- `POST /notes` → create note
+- `PUT /notes/:id` → update note
+- `DELETE /notes/:id` → delete note
 
-### Deployment
+Notes are expected to have at least `{ id, title, content, updatedAt }`. If the backend returns a different `id` on create, the frontend reconciles it automatically.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+If the backend is unreachable or returns errors, the app continues working with the local in-memory store and shows a brief toast notification.
 
-### `npm run build` fails to minify
+## Styling
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Theme variables and base styles live in `src/App.css`. Inline styles in `App.js` handle component-level styling with transitions and responsive behavior.
+
+## Accessibility
+
+- Keyboard navigation for note selection
+- aria-labels on interactive elements
+- Status toast uses `role="status"` and `aria-live="polite"`
+
+## Notes
+
+- No heavy UI frameworks — pure React + CSS.
+- Minimal dependencies for fast builds.
+
